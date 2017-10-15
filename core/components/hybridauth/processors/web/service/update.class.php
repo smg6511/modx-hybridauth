@@ -16,7 +16,15 @@ class haUserServiceUpdateProcessor extends modObjectUpdateProcessor
 
         foreach ($properties as $k => $v) {
             $k = strtolower($k);
-            $properties[$k] = $this->modx->stripTags($v);
+            if(is_array($v)){
+                $tmp = array();
+                foreach ($v as $key => $val) {
+                    $tmp[$key] = $this->modx->stripTags($val);
+                }
+                $properties[$k] = $tmp;
+            } else {
+                $properties[$k] = $this->modx->stripTags($v);
+            }
         }
 
         if (empty($properties['internalKey'])) {
